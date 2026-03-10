@@ -5,61 +5,203 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>氣泡排序法</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
             line-height: 1.6;
         }
-        .step {
-            margin: 10px 0;
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        p {
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        .step {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+        
+        .step p {
+            margin: 5px 0;
+        }
+        
         .array {
             font-weight: bold;
             color: #007BFF;
+            font-family: 'Courier New', monospace;
+            background: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
         }
+        
         .highlight {
-            color: red;
+            color: #ff4444;
             font-weight: bold;
+            background: #ffeeee;
+            padding: 2px 5px;
+            border-radius: 3px;
         }
+        
         button {
             margin-top: 20px;
-            padding: 10px 20px;
+            padding: 12px 30px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
         .complexity {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+        }
+        
+        .complexity ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .complexity li {
+            margin: 8px 0;
+            color: #333;
+        }
+        
+        #steps {
             margin-top: 20px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-left: 4px solid #007BFF;
+            min-height: 100px;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .result h3 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+        
+        .back-button {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: #5a6268;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.3em;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>氣泡排序法</h1>
-    <p>氣泡排序法是一種簡單的排序演算法。它重複地遍歷要排序的數列，依次比較相鄰的元素，並在順序錯誤的情況下交換它們。這個過程會重複進行，直到沒有需要交換的元素為止。</p>
-    
-    <h2>操作原理</h2>
-    <div class="step">
-        <p>1. 從數列的第一個元素開始，依次比較相鄰的兩個元素。</p>
-        <p>2. 如果前一個元素大於後一個元素，則交換它們。</p>
-        <p>3. 重複步驟 1 和 2，直到整個數列都沒有需要交換的元素。</p>
-    </div>
+    <div class="container">
+        <h1>🫧 氣泡排序法</h1>
+        
+        <p>氣泡排序法是一種簡單的排序演算法。它重複地遍歷要排序的數列，依次比較相鄰的元素，並在順序錯誤的情況下交換它們。這個過程會重複進行，直到沒有需要交換的元素為止。</p>
+        
+        <h2>📋 操作原理</h2>
+        <div class="step">
+            <p><strong>步驟 1：</strong>從數列的第一個元素開始，依次比較相鄰的兩個元素。</p>
+            <p><strong>步驟 2：</strong>如果前一個元素大於後一個元素，則交換它們。</p>
+            <p><strong>步驟 3：</strong>重複步驟 1 和 2，直到整個數列都沒有需要交換的元素。</p>
+        </div>
 
-    <h2>過程示例</h2>
-    <p>假設我們有一個數列：<span class="array" id="array">[5, 3, 8, 4, 2]</span></p>
-    <div id="steps"></div>
-    <button onclick="startBubbleSort()">開始排序</button>
+        <h2>🎬 過程示例</h2>
+        <p>假設我們有一個數列：<span class="array" id="array">[5, 3, 8, 4, 2]</span></p>
+        
+        <button onclick="startBubbleSort()">▶️ 開始排序</button>
+        
+        <div id="steps"></div>
 
-    <h2>時間與空間複雜度</h2>
-    <div class="complexity">
-        <p><strong>時間複雜度：</strong></p>
-        <ul>
-            <li>最佳情況：O(n)（當數列已經排序完成時，只需進行一次遍歷）</li>
-            <li>最差情況：O(n²)（當數列為逆序時，需要進行 n-1 輪比較）</li>
-            <li>平均情況：O(n²)</li>
-        </ul>
-        <p><strong>空間複雜度：</strong>O(1)（只需要常數額外空間）</p>
+        <h2>⏱️ 時間與空間複雜度</h2>
+        <div class="complexity">
+            <p><strong>時間複雜度：</strong></p>
+            <ul>
+                <li><strong>最佳情況：</strong> O(n) — 當數列已排序，只需一次遍歷</li>
+                <li><strong>最差情況：</strong> O(n²) — 當數列為逆序，需進行 n-1 輪比較</li>
+                <li><strong>平均情況：</strong> O(n²)</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>空間複雜度：</strong> O(1) — 只需常數額外空間</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="back-button">← 返回首頁</a>
+        </div>
     </div>
 
     <script>
@@ -75,7 +217,7 @@
                 let swapped = false;
                 const stepDiv = document.createElement('div');
                 stepDiv.className = 'step';
-                stepDiv.innerHTML = `<p>第 ${stepCount} 輪：</p>`;
+                stepDiv.innerHTML = `<p><strong>第 ${stepCount} 輪：</strong></p>`;
                 let stepDetails = '';
 
                 for (let j = 0; j < arr.length - 1 - i; j++) {
@@ -96,11 +238,10 @@
             }
 
             const resultDiv = document.createElement('div');
-            resultDiv.className = 'step';
-            resultDiv.innerHTML = `<h2>最終結果</h2><p>排序後的數列為：<span class="array">${arr}</span></p>`;
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = `<h3>✅ 排序完成</h3><p>排序後的數列為：<span class="array">[${arr.join(', ')}]</span></p>`;
             stepsDiv.appendChild(resultDiv);
         }
     </script>
 </body>
-
 </html>
