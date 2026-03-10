@@ -1,0 +1,106 @@
+直接在常用應用程式中試用 AI 功能 … 使用 Gemini 生成草稿及潤飾內容，並體驗採用 Google 新一代 AI 技術的 Gemini Pro，第 1 個月只要 $650 $0
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>氣泡排序法</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .step {
+            margin: 10px 0;
+        }
+        .array {
+            font-weight: bold;
+            color: #007BFF;
+        }
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .complexity {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>氣泡排序法</h1>
+    <p>氣泡排序法是一種簡單的排序演算法。它重複地遍歷要排序的數列，依次比較相鄰的元素，並在順序錯誤的情況下交換它們。這個過程會重複進行，直到沒有需要交換的元素為止。</p>
+    
+    <h2>操作原理</h2>
+    <div class="step">
+        <p>1. 從數列的第一個元素開始，依次比較相鄰的兩個元素。</p>
+        <p>2. 如果前一個元素大於後一個元素，則交換它們。</p>
+        <p>3. 重複步驟 1 和 2，直到整個數列都沒有需要交換的元素。</p>
+    </div>
+
+    <h2>過程示例</h2>
+    <p>假設我們有一個數列：<span class="array" id="array">[5, 3, 8, 4, 2]</span></p>
+    <div id="steps"></div>
+    <button onclick="startBubbleSort()">開始排序</button>
+
+    <h2>時間與空間複雜度</h2>
+    <div class="complexity">
+        <p><strong>時間複雜度：</strong></p>
+        <ul>
+            <li>最佳情況：O(n)（當數列已經排序完成時，只需進行一次遍歷）</li>
+            <li>最差情況：O(n²)（當數列為逆序時，需要進行 n-1 輪比較）</li>
+            <li>平均情況：O(n²)</li>
+        </ul>
+        <p><strong>空間複雜度：</strong>O(1)（只需要常數額外空間）</p>
+    </div>
+
+    <script>
+        const array = [5, 3, 8, 4, 2];
+        const stepsDiv = document.getElementById('steps');
+
+        function startBubbleSort() {
+            stepsDiv.innerHTML = ''; // 清空步驟
+            const arr = [...array]; // 複製數列
+            let stepCount = 1;
+
+            for (let i = 0; i < arr.length - 1; i++) {
+                let swapped = false;
+                const stepDiv = document.createElement('div');
+                stepDiv.className = 'step';
+                stepDiv.innerHTML = `<p>第 ${stepCount} 輪：</p>`;
+                let stepDetails = '';
+
+                for (let j = 0; j < arr.length - 1 - i; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        // 交換元素
+                        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                        swapped = true;
+                    }
+                    // 顯示當前數列狀態
+                    stepDetails += `[${arr.map((num, index) => index === j || index === j + 1 ? `<span class="highlight">${num}</span>` : num).join(', ')}] → `;
+                }
+
+                stepDiv.innerHTML += `<p>${stepDetails.slice(0, -3)}</p>`;
+                stepsDiv.appendChild(stepDiv);
+
+                if (!swapped) break; // 如果沒有交換，排序完成
+                stepCount++;
+            }
+
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'step';
+            resultDiv.innerHTML = `<h2>最終結果</h2><p>排序後的數列為：<span class="array">${arr}</span></p>`;
+            stepsDiv.appendChild(resultDiv);
+        }
+    </script>
+</body>
+</html>
