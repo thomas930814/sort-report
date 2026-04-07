@@ -218,7 +218,7 @@
             stepCount = 1;
             const arr = [...array]; // 複製數列
             
-            addStep('初始數列', arr);
+            addStep('初始數列', arr, null, null);
             mergeSortHelper(arr, 0, arr.length - 1);
             
             const resultDiv = document.createElement('div');
@@ -230,6 +230,8 @@
         function mergeSortHelper(arr, left, right) {
             if (left < right) {
                 const mid = Math.floor((left + right) / 2);
+                
+                addStep(`分割數列 [${arr.slice(left, right + 1).join(', ')}] 為左半部 [${arr.slice(left, mid + 1).join(', ')}] 和右半部 [${arr.slice(mid + 1, right + 1).join(', ')}]`, arr, left, right);
                 
                 // 遞迴排序左邊
                 mergeSortHelper(arr, left, mid);
@@ -247,31 +249,42 @@
             const rightArr = arr.slice(mid + 1, right + 1);
             
             let i = 0, j = 0, k = left;
+            let mergeSteps = `合併過程:<br>`;
+            mergeSteps += `左數列: [${leftArr.join(', ')}]<br>`;
+            mergeSteps += `右數列: [${rightArr.join(', ')}]<br>`;
             
             while (i < leftArr.length && j < rightArr.length) {
                 if (leftArr[i] <= rightArr[j]) {
                     arr[k++] = leftArr[i++];
+                    mergeSteps += `選擇左數列的 ${leftArr[i - 1]}<br>`;
                 } else {
                     arr[k++] = rightArr[j++];
+                    mergeSteps += `選擇右數列的 ${rightArr[j - 1]}<br>`;
                 }
             }
             
             while (i < leftArr.length) {
                 arr[k++] = leftArr[i++];
+                mergeSteps += `添加剩餘左數列的 ${leftArr[i - 1]}<br>`;
             }
             
             while (j < rightArr.length) {
                 arr[k++] = rightArr[j++];
+                mergeSteps += `添加剩餘右數列的 ${rightArr[j - 1]}<br>`;
             }
             
-            addStep(`合併 [${leftArr.join(', ')}] 和 [${rightArr.join(', ')}]`, arr);
+            addStep(`合併完成: ${mergeSteps}`, arr, left, right);
         }
 
-        function addStep(description, arr) {
+        function addStep(description, arr, highlightStart, highlightEnd) {
             const stepDiv = document.createElement('div');
             stepDiv.className = 'step';
             stepDiv.innerHTML = `<p><strong>步驟 ${stepCount}：</strong>${description}</p>`;
-            stepDiv.innerHTML += `<p>當前狀態：<span class="array">[${arr.map(num => `<span class="merged">${num}</span>`).join(', ')}]</span></p>`;
+            if (highlightStart !== null && highlightEnd !== null) {
+                stepDiv.innerHTML += `<p>當前狀態：<span class="array">[${arr.map((num, index) => (index >= highlightStart && index <= highlightEnd) ? `<span class="merged">${num}</span>` : num).join(', ')}]</span></p>`;
+            } else {
+                stepDiv.innerHTML += `<p>當前狀態：<span class="array">[${arr.join(', ')}]</span></p>`;
+            }
             stepsDiv.appendChild(stepDiv);
             stepCount++;
         }

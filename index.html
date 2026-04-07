@@ -46,7 +46,7 @@
         
         .cards {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-top: 30px;
         }
@@ -127,6 +127,11 @@
                 <div class="card-icon">🔀</div>
                 <h2>合併排序法</h2>
                 <p>Merge Sort（合併排序）<br>一種高效的分治法排序演算法，通過將數列分成兩部分、分別排序後再合併，達到 O(n log n) 的時間複雜度。</p>
+            </a>
+            <a href="quick-sort/quick_sort.html" class="card" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                <div class="card-icon">⚡</div>
+                <h2>快速排序法</h2>
+                <p>Quick Sort（快速排序）<br>一種高效的分治法排序演算法，選擇基準元素將數列分成兩部分，遞歸排序，平均時間複雜度為 O(n log n)。</p>
             </a>
         </div>
         

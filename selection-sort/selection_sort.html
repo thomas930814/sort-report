@@ -216,33 +216,43 @@
             stepsDiv.innerHTML = ''; // 清空步驟
             const arr = [...array]; // 複製數列
             let stepCount = 1;
+            let totalComparisons = 0;
 
             for (let i = 0; i < arr.length - 1; i++) {
                 let minIndex = i;
                 const stepDiv = document.createElement('div');
                 stepDiv.className = 'step';
-                stepDiv.innerHTML = `<p><strong>第 ${stepCount} 輪：</strong></p>`;
-                let stepDetails = '';
+                stepDiv.innerHTML = `<p><strong>第 ${stepCount} 輪：從索引 ${i} 開始尋找最小值</strong></p>`;
+                let stepDetails = `未排序部分: [${arr.slice(i).join(', ')}]<br>`;
+                let comparisons = 0;
 
                 // 找出最小元素的索引
                 for (let j = i + 1; j < arr.length; j++) {
+                    comparisons++;
+                    totalComparisons++;
+                    stepDetails += `比較 ${arr[j]} 與當前最小 ${arr[minIndex]}: `;
                     if (arr[j] < arr[minIndex]) {
                         minIndex = j;
+                        stepDetails += `更新最小值為 ${arr[minIndex]}<br>`;
+                    } else {
+                        stepDetails += `保持不變<br>`;
                     }
                 }
 
+                stepDetails += `本輪比較次數: ${comparisons}<br>`;
                 // 顯示找到的最小值
-                stepDetails += `尋找最小值：[${arr.map((num, index) => {
-                    if (index === minIndex) return `<span class="min">${num}</span>`;
-                    if (index < i) return num;
-                    return num;
-                }).join(', ')}] → `;
+                stepDetails += `找到的最小值: <span class="min">${arr[minIndex]}</span> (索引 ${minIndex})<br>`;
 
                 // 交換元素
-                [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+                if (minIndex !== i) {
+                    [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+                    stepDetails += `交換 ${arr[minIndex]} 與 ${arr[i]} 的位置<br>`;
+                } else {
+                    stepDetails += `最小值已在正確位置，無需交換<br>`;
+                }
 
                 // 顯示交換後的結果
-                stepDetails += `交換後 → [${arr.map((num, index) => index <= i ? `<span class="highlight">${num}</span>` : num).join(', ')}]`;
+                stepDetails += `交換後數列: [${arr.map((num, index) => index <= i ? `<span class="highlight">${num}</span>` : num).join(', ')}]`;
 
                 stepDiv.innerHTML += `<p>${stepDetails}</p>`;
                 stepsDiv.appendChild(stepDiv);
@@ -251,7 +261,7 @@
 
             const resultDiv = document.createElement('div');
             resultDiv.className = 'result';
-            resultDiv.innerHTML = `<h3>✅ 排序完成</h3><p>排序後的數列為：<span class="array">[${arr.join(', ')}]</span></p>`;
+            resultDiv.innerHTML = `<h3>✅ 排序完成</h3><p>排序後的數列為：<span class="array">[${arr.join(', ')}]</span></p><p>總比較次數: ${totalComparisons}</p>`;
             stepsDiv.appendChild(resultDiv);
         }
     </script>

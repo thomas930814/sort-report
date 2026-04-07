@@ -216,28 +216,36 @@
             stepsDiv.innerHTML = ''; // 清空步驟
             const arr = [...array]; // 複製數列
             let stepCount = 1;
+            let totalShifts = 0;
 
             for (let i = 1; i < arr.length; i++) {
                 const stepDiv = document.createElement('div');
                 stepDiv.className = 'step';
-                stepDiv.innerHTML = `<p><strong>第 ${stepCount} 輪：</strong></p>`;
-                let stepDetails = '';
+                stepDiv.innerHTML = `<p><strong>第 ${stepCount} 步：插入第 ${i + 1} 個元素</strong></p>`;
+                let stepDetails = `當前數列: [${arr.join(', ')}]<br>`;
+                let shifts = 0;
 
                 const key = arr[i];
                 let j = i - 1;
 
                 // 顯示要插入的元素
-                stepDetails += `待插入元素：<span class="highlight">${key}</span> → `;
+                stepDetails += `待插入元素：<span class="highlight">${key}</span><br>`;
 
                 // 找到正確的插入位置
+                stepDetails += `從右向左比較並移動:<br>`;
                 while (j >= 0 && arr[j] > key) {
                     arr[j + 1] = arr[j];
+                    shifts++;
+                    totalShifts++;
+                    stepDetails += `  ${arr[j]} > ${key}，移動 ${arr[j]} 到右邊<br>`;
                     j--;
                 }
                 arr[j + 1] = key;
 
+                stepDetails += `插入 ${key} 到正確位置<br>`;
+                stepDetails += `本步移動次數: ${shifts}<br>`;
                 // 顯示插入後的結果
-                stepDetails += `[${arr.map((num, index) => index <= i ? `<span class="sorted">${num}</span>` : num).join(', ')}]`;
+                stepDetails += `插入後數列: [${arr.map((num, index) => index <= i ? `<span class="sorted">${num}</span>` : num).join(', ')}]`;
 
                 stepDiv.innerHTML += `<p>${stepDetails}</p>`;
                 stepsDiv.appendChild(stepDiv);
@@ -246,7 +254,7 @@
 
             const resultDiv = document.createElement('div');
             resultDiv.className = 'result';
-            resultDiv.innerHTML = `<h3>✅ 排序完成</h3><p>排序後的數列為：<span class="array">[${arr.join(', ')}]</span></p>`;
+            resultDiv.innerHTML = `<h3>✅ 排序完成</h3><p>排序後的數列為：<span class="array">[${arr.join(', ')}]</span></p><p>總移動次數: ${totalShifts}</p>`;
             stepsDiv.appendChild(resultDiv);
         }
     </script>

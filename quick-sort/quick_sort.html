@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>氣泡排序法</title>
+    <title>快速排序法</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
             min-height: 100vh;
             padding: 40px 20px;
             line-height: 1.6;
@@ -36,10 +36,10 @@
         }
         
         h2 {
-            color: #667eea;
+            color: #a8edea;
             margin-top: 30px;
             margin-bottom: 15px;
-            border-bottom: 2px solid #667eea;
+            border-bottom: 2px solid #a8edea;
             padding-bottom: 10px;
         }
         
@@ -53,7 +53,7 @@
             margin: 15px 0;
             padding: 15px;
             background-color: #f5f5f5;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #a8edea;
             border-radius: 5px;
         }
         
@@ -79,14 +79,22 @@
             border-radius: 3px;
         }
         
+        .pivot {
+            color: #28a745;
+            font-weight: bold;
+            background: #d4edda;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
         button {
             margin-top: 20px;
             padding: 12px 30px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
             border: none;
             border-radius: 8px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -94,7 +102,7 @@
         
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 25px rgba(168, 237, 234, 0.3);
         }
         
         button:active {
@@ -105,7 +113,7 @@
             margin-top: 30px;
             padding: 20px;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #a8edea;
             border-radius: 8px;
         }
         
@@ -170,21 +178,21 @@
 </head>
 <body>
     <div class="container">
-        <h1>🫧 氣泡排序法</h1>
+        <h1>⚡ 快速排序法</h1>
         
-        <p>氣泡排序法是一種簡單的排序演算法。它重複地遍歷要排序的數列，依次比較相鄰的元素，並在順序錯誤的情況下交換它們。這個過程會重複進行，直到沒有需要交換的元素為止。</p>
+        <p>快速排序法是一種高效的分治法排序演算法。它選擇一個基準元素（pivot），將數列分成小於基準和大于基準的兩部分，然後對這兩部分遞歸地進行排序。</p>
         
         <h2>📋 操作原理</h2>
         <div class="step">
-            <p><strong>步驟 1：</strong>從數列的第一個元素開始，依次比較相鄰的兩個元素。</p>
-            <p><strong>步驟 2：</strong>如果前一個元素大於後一個元素，則交換它們。</p>
-            <p><strong>步驟 3：</strong>重複步驟 1 和 2，直到整個數列都沒有需要交換的元素。</p>
+            <p><strong>步驟 1：</strong>選擇一個基準元素（通常是數列的第一個元素）。</p>
+            <p><strong>步驟 2：</strong>將數列分成兩部分：小於基準的元素和大於基準的元素。</p>
+            <p><strong>步驟 3：</strong>對左右兩部分遞歸地重複步驟 1 和 2。</p>
         </div>
 
         <h2>🎬 過程示例</h2>
         <p>假設我們有一個數列：<span class="array" id="array">[5, 3, 8, 4, 2]</span></p>
         
-        <button onclick="startBubbleSort()">▶️ 開始排序</button>
+        <button onclick="startQuickSort()">▶️ 開始排序</button>
         
         <div id="steps"></div>
 
@@ -192,68 +200,75 @@
         <div class="complexity">
             <p><strong>時間複雜度：</strong></p>
             <ul>
-                <li><strong>最佳情況：</strong> O(n) — 當數列已排序，只需一次遍歷</li>
-                <li><strong>最差情況：</strong> O(n²) — 當數列為逆序，需進行 n-1 輪比較</li>
-                <li><strong>平均情況：</strong> O(n²)</li>
+                <li><strong>最佳情況：</strong> O(n log n) — 當基準元素總是將數列分成大致相等的兩部分</li>
+                <li><strong>最差情況：</strong> O(n²) — 當數列已排序或基準元素總是最大/最小值</li>
+                <li><strong>平均情況：</strong> O(n log n)</li>
             </ul>
-            <p style="margin-top: 15px;"><strong>空間複雜度：</strong> O(1) — 只需常數額外空間</p>
+            <p style="margin-top: 15px;"><strong>空間複雜度：</strong> O(log n) — 由於遞歸調用棧的空間</p>
         </div>
         
         <div style="text-align: center; margin-top: 30px;">
-            <a href="index.html" class="back-button">← 返回首頁</a>
+            <a href="../index.html" class="back-button">← 返回首頁</a>
         </div>
     </div>
 
     <script>
         const array = [5, 3, 8, 4, 2];
         const stepsDiv = document.getElementById('steps');
+        let stepCount = 0;
 
-        function startBubbleSort() {
-            stepsDiv.innerHTML = ''; // 清空步驟
-            const arr = [...array]; // 複製數列
-            let stepCount = 1;
-            let totalSwaps = 0;
-
-            for (let i = 0; i < arr.length - 1; i++) {
-                let swapped = false;
-                let roundSwaps = 0;
-                const stepDiv = document.createElement('div');
-                stepDiv.className = 'step';
-                stepDiv.innerHTML = `<p><strong>第 ${stepCount} 輪比較：</strong></p>`;
-                let stepDetails = `初始數列: [${arr.join(', ')}]<br>`;
-
-                for (let j = 0; j < arr.length - 1 - i; j++) {
-                    stepDetails += `比較 ${arr[j]} 和 ${arr[j + 1]}: `;
-                    if (arr[j] > arr[j + 1]) {
-                        // 交換元素
-                        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-                        swapped = true;
-                        roundSwaps++;
-                        totalSwaps++;
-                        stepDetails += `交換 → [${arr.map((num, index) => index === j || index === j + 1 ? `<span class="highlight">${num}</span>` : num).join(', ')}]<br>`;
-                    } else {
-                        stepDetails += `無需交換<br>`;
-                    }
-                }
-
-                stepDetails += `本輪交換次數: ${roundSwaps}`;
-                stepDiv.innerHTML += `<p>${stepDetails}</p>`;
-                stepsDiv.appendChild(stepDiv);
-
-                if (!swapped) {
-                    const earlyExitDiv = document.createElement('div');
-                    earlyExitDiv.className = 'step';
-                    earlyExitDiv.innerHTML = `<p><strong>提前結束：</strong>本輪無交換，數列已排序</p>`;
-                    stepsDiv.appendChild(earlyExitDiv);
-                    break; // 如果沒有交換，排序完成
-                }
-                stepCount++;
-            }
-
+        function startQuickSort() {
+            stepsDiv.innerHTML = '';
+            stepCount = 0;
+            const arr = [...array];
+            quickSort(arr, 0, arr.length - 1);
+            
             const resultDiv = document.createElement('div');
             resultDiv.className = 'result';
-            resultDiv.innerHTML = `<h3>✅ 排序完成</h3><p>排序後的數列為：<span class="array">[${arr.join(', ')}]</span></p><p>總交換次數: ${totalSwaps}</p>`;
+            resultDiv.innerHTML = `<h3>✅ 排序完成</h3><p>排序後的數列為：<span class="array">[${arr.join(', ')}]</span></p>`;
             stepsDiv.appendChild(resultDiv);
+        }
+
+        function quickSort(arr, low, high) {
+            if (low < high) {
+                const pi = partition(arr, low, high);
+                
+                quickSort(arr, low, pi - 1);
+                quickSort(arr, pi + 1, high);
+            }
+        }
+
+        function partition(arr, low, high) {
+            const pivot = arr[high];
+            let i = low - 1;
+            
+            stepCount++;
+            const stepDiv = document.createElement('div');
+            stepDiv.className = 'step';
+            stepDiv.innerHTML = `<p><strong>第 ${stepCount} 步：分割數列 [${arr.slice(low, high + 1).join(', ')}]，基準為 <span class="pivot">${pivot}</span></strong></p>`;
+            let stepDetails = `初始數列: [${arr.map((num, index) => index === high ? `<span class="pivot">${num}</span>` : num).join(', ')}]<br>`;
+            
+            for (let j = low; j < high; j++) {
+                if (arr[j] < pivot) {
+                    i++;
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                stepDetails += `比較 ${arr[j]} 與 ${pivot}: `;
+                if (arr[j] < pivot) {
+                    stepDetails += `交換位置<br>`;
+                } else {
+                    stepDetails += `不交換<br>`;
+                }
+                stepDetails += `當前數列: [${arr.map((num, index) => index === i + 1 ? `<span class="highlight">${num}</span>` : index === high ? `<span class="pivot">${num}</span>` : num).join(', ')}]<br>`;
+            }
+            
+            [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+            stepDetails += `最終交換基準: [${arr.map((num, index) => index === i + 1 ? `<span class="pivot">${num}</span>` : num).join(', ')}]`;
+            
+            stepDiv.innerHTML += `<p>${stepDetails}</p>`;
+            stepsDiv.appendChild(stepDiv);
+            
+            return i + 1;
         }
     </script>
 </body>
